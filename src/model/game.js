@@ -1,10 +1,10 @@
 'use strict';
 
 class Game {
-    constructor(gameId, firstPlayer, secondPlayer, fistPlayerScore, secondPlayerScore) {
+    constructor(gameId, firstPlayerName, secondPlayerName, fistPlayerScore, secondPlayerScore) {
         this.gameId = gameId;
-        this.firstPlayer = firstPlayer;
-        this.secondPlayer = secondPlayer;
+        this.firstPlayerName = firstPlayerName;
+        this.secondPlayerName = secondPlayerName;
         this.firstPlayerScore = fistPlayerScore;
         this.secondPlayerScore = secondPlayerScore;
     }
@@ -13,12 +13,12 @@ class Game {
         return this.gameId;
     }
 
-    getFirstPlayer() {
-        return this.firstPlayer;
+    getFirstPlayerName() {
+        return this.firstPlayerName;
     }
 
-    getSecondPlayer() {
-        return this.secondPlayer;
+    getSecondPlayerName() {
+        return this.secondPlayerName;
     }
 
     getFirstPlayerScore() {

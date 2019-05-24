@@ -51,7 +51,7 @@ class RankingsController {
 	    const newGameId = this.gamesArray.length === 0
 		    ? 0 
 		    : this.gamesArray[this.gamesArray.length -1].getGameId() + 1;
-        const game = new Game(newGameId, playerOne, playerTwo, playerOneScore, playerTwoScore);
+        const game = new Game(newGameId, playerOne.getPlayerName(), playerTwo.getPlayerName(), playerOneScore, playerTwoScore);
         this.gamesArray.push(game);
         playerOne.addGame(game);
         playerTwo.addGame(game);
