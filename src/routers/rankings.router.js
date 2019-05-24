@@ -4,8 +4,8 @@ const rankingsController = require('../controllers/rankings.controller');
 
 const getRankings = async (req, res, next) => {
     try {
-        const response = await rankingsController.getAllRankings();
-        res.status(200).json('rankings');
+        const allRankings = await rankingsController.getAllRankings();
+        res.status(200).json(allRankings);
     } catch (err) {
         next(err);
     }
