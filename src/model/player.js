@@ -60,7 +60,7 @@ class Player {
 
     addGame(game) {
         let gameResult;
-        if (game.getFirstPlayerName() === this.name) {
+        if (game.getFirstPlayerName() === this.playerName) {
             this.goalsFor += game.getFirstPlayerScore();
             this.goalsAgainst += game.getSecondPlayerScore();
             gameResult = game.getFirstPlayerScore() > game.getSecondPlayerScore()
