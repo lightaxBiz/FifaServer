@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd709c68-f665-43ef-8671-6c73c3f2a7ae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/controllers/rankings.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/rankings.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/player.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +38,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/rankings.controller.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="230">
@@ -48,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/model/player.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+            <state relative-caret-position="137">
+              <caret line="67" column="37" selection-start-line="67" selection-start-column="23" selection-end-line="67" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -89,6 +88,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>new Game</find>
+      <find>getFirstPlayer</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,12 +99,12 @@
       <list>
         <option value="$PROJECT_DIR$/src/utils/logs.utils.js" />
         <option value="$PROJECT_DIR$/src/model/game-result.enum.js" />
-        <option value="$PROJECT_DIR$/src/model/player.js" />
         <option value="$PROJECT_DIR$/src/model/table.js" />
         <option value="$PROJECT_DIR$/src/app.js" />
         <option value="$PROJECT_DIR$/src/routers/rankings.router.js" />
         <option value="$PROJECT_DIR$/src/model/game.js" />
         <option value="$PROJECT_DIR$/src/controllers/rankings.controller.js" />
+        <option value="$PROJECT_DIR$/src/model/player.js" />
       </list>
     </option>
   </component>
@@ -183,7 +183,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10378000" />
+    <option name="totallyTimeSpent" value="10488000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="823" extended-state="6" />
@@ -274,13 +274,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/game.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -299,6 +292,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="67" column="37" selection-start-line="67" selection-start-column="23" selection-end-line="67" selection-end-column="37" />
         </state>
       </provider>
     </entry>
