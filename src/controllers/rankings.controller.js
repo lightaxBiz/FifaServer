@@ -7,10 +7,10 @@ const Game = require('../model/game');
 class RankingsController {
 
     constructor() {
-        this.playersArray = [ new Player(1, 'Aviv', 0, 0, 0, 0, 0, 0, 0, 0, []),
-            new Player(2, 'Yuster', 0, 0, 0, 0, 0, 0, 0, 0, []),
-            new Player(3, 'Rozbaum', 0, 0, 0, 0, 0, 0, 0, 0, []),
-            new Player(4, 'Avichay', 0, 0, 0, 0, 0, 0, 0, 0, []) ];
+        this.playersArray = [ new Player(1, 'Aviv', 0, 0, 0, 0, 0, 0, 0, []),
+            new Player(2, 'Yuster', 0, 0, 0, 0, 0, 0, 0, []),
+            new Player(3, 'Rozbaum', 0, 0, 0, 0, 0, 0, 0, []),
+            new Player(4, 'Avichay', 0, 0, 0, 0, 0, 0, 0, []) ];
         this.gamesArray = [];
         this.tables = [ new Table(1, 'Fifa Tahat Hevre', this.playersArray, this.gamesArray) ];
     }
@@ -29,10 +29,10 @@ class RankingsController {
     async _addPlayersIfNeeded(playerNames) {
         playerNames.forEach(playerName => {
             if (!this.playersArray.find(player => player.getPlayerName() === playerName)) {
-		const newPlayerId = this.playersArray.length === 0
+		    const newPlayerId = this.playersArray.length === 0
 		             ? 0
 		             : this.playersArray[this.playersArray.length -1].getPlayerId() + 1
-                this.playersArray.push(new Player(newPlayerId, playerName, 0, 0, 0, 0, 0, 0, 0, 0, []));
+                this.playersArray.push(new Player(newPlayerId, playerName, 0, 0, 0, 0, 0, 0, 0, []));
             }
         });
     }
@@ -48,7 +48,7 @@ class RankingsController {
     }
 
     async _addGame(playerOne, playerTwo, playerOneScore, playerTwoScore) {
-	const newGameId = this.gamesArray.length === 0 
+	    const newGameId = this.gamesArray.length === 0
 		    ? 0 
 		    : this.gamesArray[this.gamesArray.length -1].getGameId() + 1;
         const game = new Game(newGameId, playerOne, playerTwo, playerOneScore, playerTwoScore);
