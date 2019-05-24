@@ -96,7 +96,7 @@ class Player {
                 break;
         }
         this._updateRank();
-        this.games.add(game);
+        this.games.push(game);
     }
 
     _updateRank() {
