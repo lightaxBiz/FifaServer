@@ -10,7 +10,7 @@ logsUtils.createNewLogger = () => {
         streams: [
             {
                 type: 'rotating-file',
-                path: './',
+                path: './log',
                 period: '1d',
                 count: 14
             }
