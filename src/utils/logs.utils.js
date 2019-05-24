@@ -6,13 +6,13 @@ const logsUtils = { log: {} };
 
 logsUtils.createNewLogger = () => {
     logsUtils.log = bunyan.createLogger({
-        name: 'RoomService',
+        name: 'FifaServer',
         streams: [
             {
                 type: 'rotating-file',
-                path: process.env.LOGGER_PATH,
-                period: process.env.LOGGER_PERIOD,
-                count: parseInt(process.env.LOGGER_COUNT)
+                path: './',
+                period: '1d',
+                count: 14
             }
         ]
     });
