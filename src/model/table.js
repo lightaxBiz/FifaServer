@@ -21,7 +21,7 @@ class Table {
     }
 
     getGames() {
-        return games;
+        return this.games;
     }
 }
 

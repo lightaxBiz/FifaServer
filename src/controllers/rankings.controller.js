@@ -12,12 +12,11 @@ class RankinsController {
             new Player(3, 'Rozbaum', 0, 0, 0, 0, 0, 0, 0, []),
             new Player(4, 'Avichay', 0, 0, 0, 0, 0, 0, 0, []) ];
         this.gamesArray = [];
+        this.tables = [ new Table(1, 'Fifa Tahat Hevre', this.playersArray, this.gamesArray) ];
     }
 
     async getAllRankings() {
-        return [ new Table(1,
-            'Fifa Tahat Hevre',
-            this.playersArray) ];
+        return this.tables;
     }
 
     async addGame(playerOneName, playerOneScore,playerTwoName, playerTwoScore) {
