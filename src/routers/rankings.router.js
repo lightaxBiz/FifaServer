@@ -11,6 +11,19 @@ const getRankings = async (req, res, next) => {
     }
 }
 
+const addGame = async (req, res, next) => {
+    try {
+        const playerOneName = req.body.playerOneName;
+        const playerOneScore = req.body.playerOneScore;
+        const playerTwoName = req.body.playerTwoName;
+        const playerTwoScore = req.body.playerTwoScore;
+        await rankingsController.addGame(playerOneName, playerOneScore,playerTwoName, playerTwoScore);
+    } catch (err) {
+        next(err);
+    }
+}
+
 router.get('/', getRankings);
+router.post('/addGame', addGame);
 
 module.exports = router;

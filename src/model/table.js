@@ -1,10 +1,11 @@
 'use strict';
 
 class Table {
-    constructor(tableId, tableName, players) {
+    constructor(tableId, tableName, players, games) {
         this.tableId = tableId;
         this.tableName = tableName;
         this.players = players;
+        this.games = games;
     }
 
     getTableId() {
@@ -17,6 +18,10 @@ class Table {
 
     getPlayers() {
         return this.players;
+    }
+
+    getGames() {
+        return games;
     }
 }
 
