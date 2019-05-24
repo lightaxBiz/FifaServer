@@ -17,3 +17,5 @@ class RankinsController {
               new Player(4, 'Avichay', 4, 3, 3, 7, 10, 45) ]) ];
     }
 }
+
+module.exports = new RankinsController();
