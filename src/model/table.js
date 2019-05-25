@@ -23,6 +23,10 @@ class Table {
     getGames() {
         return this.games;
     }
+
+    addGame(game) {
+        this.games.push(game);
+    }
 }
 
 module.exports = Table;

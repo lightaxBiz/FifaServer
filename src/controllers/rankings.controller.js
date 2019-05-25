@@ -11,19 +11,19 @@ class RankingsController {
             new Player(2, 'Yuster', 0, 0, 0, 0, 0, 0, 0, []),
             new Player(3, 'Rozbaum', 0, 0, 0, 0, 0, 0, 0, []),
             new Player(4, 'Avichay', 0, 0, 0, 0, 0, 0, 0, []) ];
-        this.gamesArray = [];
-        this.tables = [ new Table(1, 'Fifa Tahat Hevre', this.playersArray, this.gamesArray) ];
+        this.tables = [ new Table(1, 'Fifa Tahat Hevre', this.playersArray, []) ];
     }
 
     async getAllRankings() {
         return this.tables;
     }
 
-    async addGame(playerOneName, playerOneScore,playerTwoName, playerTwoScore) {
+    async addGame(tableId, playerOneName, playerOneScore,playerTwoName, playerTwoScore) {
         await this._addPlayersIfNeeded([ playerOneName, playerTwoName ]);
         const playerOne = await this._getPlayerByNames(playerOneName);
         const playerTwo = await this._getPlayerByNames(playerTwoName);
-        await this._addGame(playerOne, playerTwo, playerOneScore, playerTwoScore);
+        const table = await this._getTableById(tableId);
+        await this._addGame(table, playerOne, playerTwo, playerOneScore, playerTwoScore);
     }
 
     async _addPlayersIfNeeded(playerNames) {
@@ -31,7 +31,7 @@ class RankingsController {
             if (!this.playersArray.find(player => player.getPlayerName() === playerName)) {
 		    const newPlayerId = this.playersArray.length === 0
 		             ? 0
-		             : this.playersArray[this.playersArray.length -1].getPlayerId() + 1
+		             : this.playersArray[this.playersArray.length - 1].getPlayerId() + 1
                 this.playersArray.push(new Player(newPlayerId, playerName, 0, 0, 0, 0, 0, 0, 0, []));
             }
         });
@@ -47,14 +47,23 @@ class RankingsController {
         return null;
     }
 
-    async _addGame(playerOne, playerTwo, playerOneScore, playerTwoScore) {
-	    const newGameId = this.gamesArray.length === 0
+    async _addGame(table, playerOne, playerTwo, playerOneScore, playerTwoScore) {
+	    const newGameId = table.getGames().length === 0
 		    ? 0 
-		    : this.gamesArray[this.gamesArray.length -1].getGameId() + 1;
+		    : table.getGames()[table.getGames().length - 1].getGameId() + 1;
         const game = new Game(newGameId, playerOne.getPlayerName(), playerTwo.getPlayerName(), playerOneScore, playerTwoScore);
-        this.gamesArray.push(game);
+        table.addGame(game);
         playerOne.addGame(game);
         playerTwo.addGame(game);
+    }
+
+    async _getTableById(tableId) {
+        for (var i = 0; i < this.tables.length; i++) {
+            if (this.tables[i].getTableId() ===  tableId) {
+                return this.tables[i];
+            }
+        }
+        return null;
     }
 }
 
