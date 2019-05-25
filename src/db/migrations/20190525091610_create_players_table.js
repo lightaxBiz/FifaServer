@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
         t.integer("goals_for").notNullable();
         t.integer("goals_against").notNullable();
         t.float("rank").notNullable();
+        t.timestamps(false, true);
     })
 };
 
