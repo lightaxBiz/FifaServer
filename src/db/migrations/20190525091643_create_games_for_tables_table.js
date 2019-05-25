@@ -1,8 +1,8 @@
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('games_for_tables', function (t) {
-        t.integer('table_id').notNullable().primary();
-        t.integer('game_id').notNullable().primary();
+        t.integer('table_id').notNullable();
+        t.integer('game_id').notNullable();
         t.timestamps(false, true);
         t.primary([ 'table_id', 'game_id']);
     })
