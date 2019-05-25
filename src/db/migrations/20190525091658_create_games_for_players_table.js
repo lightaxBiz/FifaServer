@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
         t.integer('player_id').notNullable();
         t.integer('game_id').notNullable();
         t.timestamps(false, true);
-        t.primary([ 'player_if', 'game_id']);
+        t.primary([ 'player_id', 'game_id']);
     })
 };
 
