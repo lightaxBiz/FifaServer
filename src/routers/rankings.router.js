@@ -25,7 +25,18 @@ const addGame = async (req, res, next) => {
     }
 }
 
+const addTable = async (req, res, next) => {
+    try {
+        const tableName = req.body.tableName;
+        await rankingsController.addTable(tableName);
+        res.status(200).json('Saved');
+    } catch (err) {
+        next(err);
+    }
+}
+
 router.get('/', getRankings);
 router.post('/addGame', addGame);
+router.post('/addTable', addTable);
 
 module.exports = router;

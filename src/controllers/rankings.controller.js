@@ -3,6 +3,7 @@
 const Player = require('../model/player');
 const Table = require('../model/table');
 const Game = require('../model/game');
+const tablesDB = require('../db/tables.db');
 
 class RankingsController {
 
@@ -24,6 +25,10 @@ class RankingsController {
         const playerTwo = await this._getPlayerByNames(playerTwoName);
         const table = await this._getTableById(tableId);
         await this._addGame(table, playerOne, playerTwo, playerOneScore, playerTwoScore);
+    }
+
+    async addTable(tableName) {
+        await tablesDB.createTable(tableName);
     }
 
     async _addPlayersIfNeeded(playerNames) {
