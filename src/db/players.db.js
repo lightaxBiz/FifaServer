@@ -16,15 +16,7 @@ const createPlayer = async (player_name) => {
 
 const addGameToPlayer = async (player_name, my_score, opponent_score, game_id) => {
     const playerDetails = await knex.from('players').select().whereRaw('player_name = ?', [ player_name ]);
-    await _addGameToPlayerGamesToPlayersTable(playerDetails[0]['player_id'], game_id);
     await _updatePlayerWithGameResult(playerDetails[0], my_score, opponent_score);
-}
-
-const _addGameToPlayerGamesToPlayersTable = async (player_id, game_id) => {
-    console.log(`Adding a game ${game_id} to player ${player_id}`);
-    return knex('games_for_players').insert({
-        player_id, game_id
-    });
 }
 
 const _updatePlayerWithGameResult = async (playerDetails, my_score, opponent_score) => {

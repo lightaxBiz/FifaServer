@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
         t.string('second_player_name').notNullable();
         t.integer('first_player_score').notNullable();
         t.integer('second_player_score').notNullable();
+        t.integer('table_id').notNullable();
         t.timestamps(false, true);
     })
 };

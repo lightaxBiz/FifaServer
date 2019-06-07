@@ -1,36 +1,18 @@
 'use strict'
 
-// const Player = require('../model/player');
-// const Table = require('../model/table');
-// const Game = require('../model/game');
 const tablesDB = require('../db/tables.db');
 const playerDB = require('../db/players.db');
 const gamesDB = require('../db/games.db');
 
 class RankingsController {
 
-    constructor() {
-        // this.playersArray = [ new Player(1, 'Aviv', 0, 0, 0, 0, 0, 0, 0, []),
-        //     new Player(2, 'Yuster', 0, 0, 0, 0, 0, 0, 0, []),
-        //     new Player(3, 'Rozbaum', 0, 0, 0, 0, 0, 0, 0, []),
-        //     new Player(4, 'Avichay', 0, 0, 0, 0, 0, 0, 0, []) ];
-        // this.tables = [ new Table(1, 'Fifa Tahat Hevre', this.playersArray, []) ];
-    }
-
     async getAllRankings() {
         return this.tables;
     }
 
     async addGame(tableId, playerOneName, playerOneScore,playerTwoName, playerTwoScore) {
-        // await this._addPlayersIfNeeded([ playerOneName, playerTwoName ]);
-        // const playerOne = await this._getPlayerByNames(playerOneName);
-        // const playerTwo = await this._getPlayerByNames(playerTwoName);
-        // const table = await this._getTableById(tableId);
-        // await this._addGame(table, playerOne, playerTwo, playerOneScore, playerTwoScore);
-
         await this._addPlayersIfNeeded([ playerOneName, playerTwoName ]);
-        const gameId = await gamesDB.addGame(playerOneName, playerTwoName, playerOneScore, playerTwoScore);
-        await tablesDB.addGame(tableId, gameId);
+        const gameId = await gamesDB.addGame(playerOneName, playerTwoName, playerOneScore, playerTwoScore, tableId);
         await this._addGameToPlayer(playerOneName, playerOneScore, playerTwoScore, gameId);
         await this._addGameToPlayer(playerTwoName, playerTwoScore, playerOneScore, gameId);
     }
