@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('players_for_tables', function (t) {
         t.integer('table_id').notNullable();
-        t.integer('player_name').notNullable();
+        t.string('player_name').notNullable();
         t.integer("wins").notNullable();
         t.integer("technical_wins").notNullable();
         t.integer("losts").notNullable();

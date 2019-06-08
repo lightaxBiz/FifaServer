@@ -6,7 +6,7 @@ const Player = require('../model/player');
 const addPlayerToTable = async (table_id, player_name) => {
     console.log(`Add player ${player_name} to table ${table_id}`);
     const insertResult = await knex('players_for_tables').insert({
-        table_id: table_id, player_name: player_name
+        table_id, player_name
     });
     return insertResult[0];
 }
