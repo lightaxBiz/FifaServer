@@ -17,26 +17,38 @@ const addPlayerToTable = async (table_id, player_id) => {
     });
 }
 
-const addGameToPlayer = async (player_name, my_score, opponent_score, game_id) => {
-    const playerDetails = await knex.from('players').select().whereRaw('player_name = ?', [ player_name ]);
-    var player = new Player(playerDetails[0]['player_id'],
-    playerDetails[0]['player_name'],
-    playerDetails[0]['wins'],
-    playerDetails[0]['technical_wins'],
-    playerDetails[0]['losts'],
-    playerDetails[0]['duces'],
-    playerDetails[0]['goals_for'],
-    playerDetails[0]['goals_against'],
-    playerDetails[0]['rank']);
-    await _updatePlayerWithGameResult(player, my_score, opponent_score);
+const addGameToPlayer = async (playerName, myScore, opponentScore, tableId) => {
+    const playerDetails = await knex.from('players')
+    .select()
+    .where('player_name', '=', playerName);
+    const playerId = playerDetails[0]['player_id'];
+    const playerForTableDetails = await knex.from('players_for_tables')
+    .select()
+    .where({
+        table_id:  tableId,
+        player_id: player.getPlayerId()
+    });
+    var player = new Player(playerId,
+        playerForTableDetails[0]['player_name'],
+        playerForTableDetails[0]['wins'],
+        playerForTableDetails[0]['technical_wins'],
+        playerForTableDetails[0]['losts'],
+        playerForTableDetails[0]['duces'],
+        playerForTableDetails[0]['goals_for'],
+        playerForTableDetails[0]['goals_against'],
+        playerForTableDetails[0]['rank']);
+    await _updatePlayerWithGameResult(player, myScore, opponentScore, tableId);
 }
 
 // private methods
 
-const _updatePlayerWithGameResult = async (player, myScore, opponentScore) => {
+const _updatePlayerWithGameResult = async (player, myScore, opponentScore, tableId) => {
     gameResult = player.incrementResultValue(myScore, opponentScore);
-    return await knex('players')
-    .where('player_id', '=', player.getPlayerId())
+    return await knex('players_for_tables')
+    .where({
+        table_id:  tableId,
+        player_id: player.getPlayerId()
+    })
     .increment('goals_for', myScore)
     .increment('goals_against', opponentScore)
     .increment(gameResult, 1)

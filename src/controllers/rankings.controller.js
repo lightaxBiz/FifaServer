@@ -19,8 +19,8 @@ class RankingsController {
         }
         await this._addPlayersIfNeeded([ playerOneName, playerTwoName ], tableId);
         const gameId = await gamesDB.addGame(playerOneName, playerTwoName, playerOneScore, playerTwoScore, tableId);
-        playerDB.addGameToPlayer(playerOneName, playerOneScore, playerTwoScore, gameId);
-        playerDB.addGameToPlayer(playerTwoName, playerTwoScore, playerOneScore, gameId);
+        playerDB.addGameToPlayer(playerOneName, playerOneScore, playerTwoScore, tableId);
+        playerDB.addGameToPlayer(playerTwoName, playerTwoScore, playerOneScore, tableId);
     }
 
     async addTable(tableName) {
