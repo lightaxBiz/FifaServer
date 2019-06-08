@@ -3,33 +3,22 @@ const Player = require('../model/player');
 
 // public methods
 
-const createPlayer = async (player_name) => {
-    console.log(`Add player ${player_name}`);
-    insertData = await knex('players').insert({
-        player_name
+const addPlayerToTable = async (table_id, player_name) => {
+    console.log(`Add player ${player_name} to table ${table_id}`);
+    const insertResult = await knex('players_for_tables').insert({
+        table_id: table_id, player_name: player_name
     });
-    return insertData[0];
-}
-const addPlayerToTable = async (table_id, player_id) => {
-    console.log(`Add player ${player_id} to table ${table_id}`);
-    return await knex('players_for_tables').insert({
-        table_id, player_id
-    });
+    return insertResult[0];
 }
 
 const addGameToPlayer = async (playerName, myScore, opponentScore, tableId) => {
-    const playerDetails = await knex.from('players')
-    .select()
-    .where('player_name', '=', playerName);
-    const playerId = playerDetails[0]['player_id'];
     const playerForTableDetails = await knex.from('players_for_tables')
     .select()
     .where({
         table_id:  tableId,
-        player_id: player.getPlayerId()
+        player_name: playerName
     });
-    var player = new Player(playerId,
-        playerForTableDetails[0]['player_name'],
+    var player = new Player(playerName,
         playerForTableDetails[0]['wins'],
         playerForTableDetails[0]['technical_wins'],
         playerForTableDetails[0]['losts'],
@@ -47,7 +36,7 @@ const _updatePlayerWithGameResult = async (player, myScore, opponentScore, table
     return await knex('players_for_tables')
     .where({
         table_id:  tableId,
-        player_id: player.getPlayerId()
+        player_name: player.getPlayerName()
     })
     .increment('goals_for', myScore)
     .increment('goals_against', opponentScore)
@@ -59,7 +48,6 @@ const _updatePlayerWithGameResult = async (player, myScore, opponentScore, table
 }
 
 module.exports = {
-    createPlayer,
     addPlayerToTable,
     addGameToPlayer
 };

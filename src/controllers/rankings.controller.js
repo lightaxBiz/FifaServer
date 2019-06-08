@@ -18,7 +18,7 @@ class RankingsController {
             throw `Table ${tableId} does not exist`;
         }
         await this._addPlayersIfNeeded([ playerOneName, playerTwoName ], tableId);
-        const gameId = await gamesDB.addGame(playerOneName, playerTwoName, playerOneScore, playerTwoScore, tableId);
+        await gamesDB.addGame(playerOneName, playerTwoName, playerOneScore, playerTwoScore, tableId);
         playerDB.addGameToPlayer(playerOneName, playerOneScore, playerTwoScore, tableId);
         playerDB.addGameToPlayer(playerTwoName, playerTwoScore, playerOneScore, tableId);
     }
@@ -31,14 +31,13 @@ class RankingsController {
     // private methods
 
     async _addPlayersIfNeeded(playerNames, tableId) {
-        playerNames.forEach(async playerName => {
+        for (var i = 0; i < playerNames.length; i++) {
             try {
-                playerId = await playerDB.createPlayer(playerName);
-                await playerDB.addPlayerToTable(tableId, playerId);
+                await playerDB.addPlayerToTable(tableId, playerNames[i]);
             } catch (err) {
                 console.log(err);
             }
-        });
+        }
     }
 }
 

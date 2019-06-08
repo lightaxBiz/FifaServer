@@ -10,8 +10,7 @@ const HIGHEST_POSSIBLE_RANK = 100;
 const TECHNICAL_WIN_DIFFERENT = 3
 
 class Player {
-    constructor(playerId, playerName, wins, technicalWins, losts, duces, goalsFor, goalsAgainst, rank) {
-        this.playerId = playerId;
+    constructor(playerName, wins, technicalWins, losts, duces, goalsFor, goalsAgainst, rank) {
         this.playerName = playerName;
         this.wins = wins;
         this.technicalWins = technicalWins;
@@ -20,10 +19,6 @@ class Player {
         this.goalsFor = goalsFor;
         this.goalsAgainst = goalsAgainst;
         this.rank = rank;
-    }
-
-    getPlayerId() {
-        return this.playerId;
     }
 
     getPlayerName() {
