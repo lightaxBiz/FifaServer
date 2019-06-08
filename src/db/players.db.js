@@ -1,79 +1,53 @@
 const knex = require('knex')(require('./knexfile'));
-const GameResultEnum = require('./../model/game-result.enum');
-const WINNING_POINT = 3;
-const TECHNICAL_WINNING_POINTS = 4;
-const LOSE_POINTS = 0;
-const DUCE_POINTS = 1;
-const HIGHEST_POSSIBLE_RANK = 100;
-const TECHNICAL_WIN_DIFFERENT = 3
+const Player = require('../model/player');
+
+// public methods
 
 const createPlayer = async (player_name) => {
     console.log(`Add player ${player_name}`);
-    return knex('players').insert({
+    insertData = await knex('players').insert({
         player_name
+    });
+    return insertData[0];
+}
+const addPlayerToTable = async (table_id, player_id) => {
+    console.log(`Add player ${player_id} to table ${table_id}`);
+    return await knex('players_for_tables').insert({
+        table_id, player_id
     });
 }
 
 const addGameToPlayer = async (player_name, my_score, opponent_score, game_id) => {
     const playerDetails = await knex.from('players').select().whereRaw('player_name = ?', [ player_name ]);
-    await _updatePlayerWithGameResult(playerDetails[0], my_score, opponent_score);
+    var player = new Player(playerDetails[0]['player_id'],
+    playerDetails[0]['player_name'],
+    playerDetails[0]['wins'],
+    playerDetails[0]['technical_wins'],
+    playerDetails[0]['losts'],
+    playerDetails[0]['duces'],
+    playerDetails[0]['goals_for'],
+    playerDetails[0]['goals_against'],
+    playerDetails[0]['rank']);
+    await _updatePlayerWithGameResult(player, my_score, opponent_score);
 }
 
-const _updatePlayerWithGameResult = async (playerDetails, my_score, opponent_score) => {
-    let gameResult;
-    gameResult = my_score > opponent_score
-        ? GameResultEnum.WIN
-        : my_score < opponent_score
-            ? GameResultEnum.LOST : GameResultEnum.DUCE;
-    if (gameResult === GameResultEnum.WIN && (my_score - opponent_score >= TECHNICAL_WIN_DIFFERENT)) {
-        gameResult = GameResultEnum.TECHNICAL_WIN;
-    }
-    
-    let resultFieldToIncrement;
-    switch (gameResult) {
-        case GameResultEnum.WIN:
-            resultFieldToIncrement = 'wins';
-            break;
-        case GameResultEnum.TECHNICAL_WIN:
-            resultFieldToIncrement = 'technical_wins';
-            break;
-        case GameResultEnum.LOST:
-            resultFieldToIncrement = 'losts';
-            break;
-        case  GameResultEnum.DUCE:
-            resultFieldToIncrement = 'duces';
-            break;
-    }
-    playerDetails[resultFieldToIncrement]++;
-    await _updateGameCount(playerDetails['player_id'], resultFieldToIncrement);
-    await _updateRank(playerDetails);
-}
+// private methods
 
-const _updateRank = async(playerDetails) => {
-    const totalGameNumber = playerDetails['wins'] + playerDetails['technical_wins'] + playerDetails['losts'] + playerDetails['duces'];
-    const highestValue = totalGameNumber * WINNING_POINT;
-    const currentValue = playerDetails['wins'] * WINNING_POINT
-        + playerDetails['technical_wins'] * TECHNICAL_WINNING_POINTS
-        + playerDetails['losts'] * LOSE_POINTS
-        + playerDetails['duces'] * DUCE_POINTS;
+const _updatePlayerWithGameResult = async (player, myScore, opponentScore) => {
+    gameResult = player.incrementResultValue(myScore, opponentScore);
     return await knex('players')
-    .whereRaw('player_id = ?', [ playerDetails['player_id'] ])
+    .where('player_id', '=', player.getPlayerId())
+    .increment('goals_for', myScore)
+    .increment('goals_against', opponentScore)
+    .increment(gameResult, 1)
     .update({
-        'updated_at': new Date(),
-        rank: ((currentValue / highestValue) * HIGHEST_POSSIBLE_RANK)
-    });
-}
-
-const _updateGameCount = async(player_id, resultFieldToIncrement) => {
-    return await knex('players')
-    .where('player_id', '=', player_id)
-    .increment(resultFieldToIncrement, 1)
-    .update({
+        rank: player.getNewRank(),
         'updated_at': new Date()
     });
 }
 
 module.exports = {
     createPlayer,
+    addPlayerToTable,
     addGameToPlayer
 };

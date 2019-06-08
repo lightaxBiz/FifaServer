@@ -7,9 +7,10 @@ const TECHNICAL_WINNING_POINTS = 4;
 const LOSE_POINTS = 0;
 const DUCE_POINTS = 1;
 const HIGHEST_POSSIBLE_RANK = 100;
+const TECHNICAL_WIN_DIFFERENT = 3
 
 class Player {
-    constructor(playerId, playerName, wins, technicalWins, losts, duces, goalsFor, goalsAgainst, rank, games) {
+    constructor(playerId, playerName, wins, technicalWins, losts, duces, goalsFor, goalsAgainst, rank) {
         this.playerId = playerId;
         this.playerName = playerName;
         this.wins = wins;
@@ -19,7 +20,6 @@ class Player {
         this.goalsFor = goalsFor;
         this.goalsAgainst = goalsAgainst;
         this.rank = rank;
-        this.games = games;
     }
 
     getPlayerId() {
@@ -54,36 +54,13 @@ class Player {
         return this.rank;
     }
 
-    getGames() {
-        return this.games;
-    }
-
-    addGame(game) {
-        let gameResult;
-        if (game.getFirstPlayerName() === this.playerName) {
-            this.goalsFor += game.getFirstPlayerScore();
-            this.goalsAgainst += game.getSecondPlayerScore();
-            gameResult = game.getFirstPlayerScore() > game.getSecondPlayerScore()
-                ? GameResultEnum.WIN
-                : game.getFirstPlayerScore() < game.getSecondPlayerScore()
-                ? GameResultEnum.LOST : GameResultEnum.DUCE;
-            if (gameResult === GameResultEnum.WIN && (game.getFirstPlayerScore() - game.getSecondPlayerScore() >= 3)) {
-                gameResult = GameResultEnum.TECHNICAL_WIN;
-            }
-        } else {
-            this.goalsFor += game.getSecondPlayerScore();
-            this.goalsAgainst += game.getFirstPlayerScore();
-            gameResult = game.getSecondPlayerScore() > game.getFirstPlayerScore()
-                ? GameResultEnum.WIN
-                : game.getSecondPlayerScore() < game.getFirstPlayerScore()
-                    ? GameResultEnum.LOST : GameResultEnum.DUCE;
-            if (gameResult === GameResultEnum.WIN && (game.getSecondPlayerScore() - game.getFirstPlayerScore() >= 3)) {
-                gameResult = GameResultEnum.TECHNICAL_WIN;
-            }
-        }
+    incrementResultValue(myScore, opponentScore) {
+        this.goalsFor += myScore;
+        this.goalsAgainst += opponentScore;
+        const gameResult = getGameResult(myScore, opponentScore);
         switch (gameResult) {
             case GameResultEnum.WIN:
-                this.wins++;
+                this.wins++
                 break;
             case GameResultEnum.TECHNICAL_WIN:
                 this.technicalWins++;
@@ -95,19 +72,30 @@ class Player {
                 this.duces++;
                 break;
         }
-        this._updateRank();
-        this.games.push(game);
+        return gameResult;
     }
 
-    _updateRank() {
+    getNewRank() {
         const totalGameNumber = this.wins + this.technicalWins + this.losts + this.duces;
         const highestValue = totalGameNumber * WINNING_POINT;
         const currentValue = this.wins * WINNING_POINT
-            + this.technicalWins * TECHNICAL_WINNING_POINTS
-            + this.losts * LOSE_POINTS
-            + this.duces * DUCE_POINTS;
-        this.rank = (currentValue / highestValue) * HIGHEST_POSSIBLE_RANK;
+        + this.technicalWins * TECHNICAL_WINNING_POINTS
+        + this.losts * LOSE_POINTS
+        + this.duces * DUCE_POINTS;
+        return (currentValue / highestValue) * HIGHEST_POSSIBLE_RANK;
     }
 }
 
 module.exports = Player;
+
+function getGameResult(myScore, opponentScore) {
+    let gameResult;
+    gameResult = myScore > opponentScore
+        ? GameResultEnum.WIN
+        : myScore < opponentScore
+            ? GameResultEnum.LOST : GameResultEnum.DUCE;
+    if (gameResult === GameResultEnum.WIN && (myScore - opponentScore >= TECHNICAL_WIN_DIFFERENT)) {
+        gameResult = GameResultEnum.TECHNICAL_WIN;
+    }
+    return gameResult;
+}

@@ -28,8 +28,8 @@ const addGame = async (req, res, next) => {
 const addTable = async (req, res, next) => {
     try {
         const tableName = req.body.tableName;
-        await rankingsController.addTable(tableName);
-        res.status(200).json('Saved');
+        const table = await rankingsController.addTable(tableName);
+        res.status(200).json(table);
     } catch (err) {
         next(err);
     }

@@ -1,10 +1,10 @@
 'use strict';
 
 const GameResultEnum = {
-    WIN: 'win',
-    TECHNICAL_WIN: 'technical_win',
-    LOST: 'lost',
-    DUCE: 'duce'
+    WIN: 'wins',
+    TECHNICAL_WIN: 'technical_wins',
+    LOST: 'losts',
+    DUCE: 'duces'
 }
 
 module.exports = GameResultEnum;
