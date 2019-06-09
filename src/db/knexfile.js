@@ -1,11 +1,10 @@
 module.exports = {
-    client: 'mysql',
+    client: process.env.DB_CLIENT,
     connection: {
-        host : 'fifaserverdb.c1bre5khm2pq.us-east-1.rds.amazonaws.com',
-        // port : '3306',
-        user : 'lightax',
-        password : 'aaaRAA89',
-        database : 'FifaServerDB'
+        host : process.env.DB_HOST,
+        user : process.env.DB_USER,
+        password : process.env.DB_PASSWORD,
+        database : process.env.DB_NAME
     },
     pool: {
         min: 1,

@@ -22,6 +22,9 @@ class RankingsController {
         if (firstPlayerName === secondPlayerName) {
             throw 'Should be destinct players';
         }
+        if (!firstPlayerName || !secondPlayerName) {
+            throw 'Player names are illegal';
+        }
         if (!this._validateScoreInput(firstPlayerScore) || !this._validateScoreInput(seconfPlayerScore)) {
             throw 'Scores should be a number bigger or equal to 0';
         }
