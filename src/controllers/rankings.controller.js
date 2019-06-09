@@ -1,6 +1,7 @@
 'use strict'
 
 const Table = require('../model/table');
+const Game = require('../model/game');
 const tablesDB = require('../db/tables.db');
 const playerDB = require('../db/players.db');
 const gamesDB = require('../db/games.db');
@@ -10,20 +11,31 @@ class RankingsController {
     // public methods
 
     async getAllRankings() {
-        return this.tables;
+        const allTables = await tablesDB.getAllTables();
+        return allTables;
     }
 
-    async addGame(tableId, playerOneName, playerOneScore, playerTwoName, playerTwoScore) {
+    async addGame(tableId, firstPlayerName, firstPlayerScore, secondPlayerName, seconfPlayerScore) {
         if (!(await tablesDB.existsTable(tableId))) {
             throw `Table ${tableId} does not exist`;
         }
-        await this._addPlayersIfNeeded([ playerOneName, playerTwoName ], tableId);
-        await gamesDB.addGame(playerOneName, playerTwoName, playerOneScore, playerTwoScore, tableId);
-        playerDB.addGameToPlayer(playerOneName, playerOneScore, playerTwoScore, tableId);
-        playerDB.addGameToPlayer(playerTwoName, playerTwoScore, playerOneScore, tableId);
+        if (firstPlayerName === secondPlayerName) {
+            throw 'Should be destinct players';
+        }
+        if (!this._validateScoreInput(firstPlayerScore) || !this._validateScoreInput(seconfPlayerScore)) {
+            throw 'Scores should be a number bigger or equal to 0';
+        }
+        await this._addPlayersIfNeeded([ firstPlayerName, secondPlayerName ], tableId);
+        const gameId = await gamesDB.addGame(firstPlayerName, secondPlayerName, firstPlayerScore, seconfPlayerScore, tableId);
+        playerDB.addGameToPlayer(firstPlayerName, firstPlayerScore, seconfPlayerScore, tableId);
+        playerDB.addGameToPlayer(secondPlayerName, seconfPlayerScore, firstPlayerScore, tableId);
+        return new Game(gameId, firstPlayerName, secondPlayerName, firstPlayerScore, seconfPlayerScore);
     }
 
     async addTable(tableName) {
+        if (!tableName) {
+            throw 'You should provide a valid table name';
+        }
         const tableId = await tablesDB.createTable(tableName);
         return new Table(tableId, tableName, [], []);
     }
@@ -38,6 +50,10 @@ class RankingsController {
                 console.log(err);
             }
         }
+    }
+
+    _validateScoreInput(scoreInput) {
+        return !isNaN(scoreInput) && scoreInput >= 0;
     }
 }
 

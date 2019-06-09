@@ -29,6 +29,25 @@ const addGameToPlayer = async (playerName, myScore, opponentScore, tableId) => {
     await _updatePlayerWithGameResult(player, myScore, opponentScore, tableId);
 }
 
+const getAllPlayersForTable = async (tableId) => {
+    console.log(`getting all players for table ${tableId}`);
+    const selectResult = await knex('players_for_tables').select().where('table_id', '=', tableId);
+    var players = [];
+    for (var i = 0; i < selectResult.length; i++) {
+        const playerDetails = selectResult[i];
+        const player = new Player(playerDetails['player_name'],
+            playerDetails['wins'],
+            playerDetails['technical_wins'],
+            playerDetails['losts'],
+            playerDetails['duces'],
+            playerDetails['goals_for'],
+            playerDetails['goals_against'],
+            playerDetails['rank']);
+        players.push(player);
+    }
+    return players;
+}
+
 // private methods
 
 const _updatePlayerWithGameResult = async (player, myScore, opponentScore, tableId) => {
@@ -49,5 +68,6 @@ const _updatePlayerWithGameResult = async (player, myScore, opponentScore, table
 
 module.exports = {
     addPlayerToTable,
-    addGameToPlayer
+    addGameToPlayer,
+    getAllPlayersForTable
 };

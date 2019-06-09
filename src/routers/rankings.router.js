@@ -18,8 +18,8 @@ const addGame = async (req, res, next) => {
         const playerOneScore = req.body.playerOneScore;
         const playerTwoName = req.body.playerTwoName;
         const playerTwoScore = req.body.playerTwoScore;
-        await rankingsController.addGame(tableId, playerOneName, playerOneScore,playerTwoName, playerTwoScore);
-        res.status(200).json('Saved');
+        const game = await rankingsController.addGame(tableId, playerOneName, playerOneScore,playerTwoName, playerTwoScore);
+        res.status(200).json(game);
     } catch (err) {
         next(err);
     }
